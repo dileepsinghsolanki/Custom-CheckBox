@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+<script src="app.js"></script>
+<body ng-app="app"
+  <div class="checkbox-container" ng-controller="CheckBoxCtrl">
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="checkall" ng-click="toggleAll()"> Check all
+      </label>
+    </div>
+    <ul class="list-group">
+      <li class="list-group-item" ng-repeat="data in checkboxData">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" ng-model="data.value" ng-change="checkStatus()"> {{data.label}}
+          </label>
+        </div>
+      </li>
+    </ul>
+  </div>
+</body>
+<script>
+angular.module('app',[])
+
+.controller('CheckBoxCtrl',['$scope', function($scope) {
+  $scope.checkboxData = [
+    {label: 'Green',value: false},
+    {label: 'Red',value: false},
+    {label: 'Blue',value: true},
+    {label: 'Purple',value: true},
+    {label: 'Pink',value: false}
+    ];
+  $scope.checkall = false;
+  $scope.toggleAll = function() {
+    $scope.checkall = !$scope.checkall;
+    for(var key in $scope.checkboxData) {	
+		$scope.checkboxData[key].value = $scope.checkall;
+    }
+  };
+  $scope.checkStatus = function(){
+	var count =0;
+	for(var key in $scope.checkboxData) {			    
+		if($scope.checkboxData[key].value==true){
+			count++;
+		}			
+	}
+	$scope.checkall = (count==$scope.checkboxData.length);
+	
+  }
+  
+}]);
+</script>
